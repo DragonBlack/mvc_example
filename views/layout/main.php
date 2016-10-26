@@ -11,18 +11,22 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li class=""><a href="/page/?name=about">About</a></li>
+            <li class=""><a href="<?= App::Component('router')->to(['page/index', 'name'=>'about'])?>"><?= __('menu.about', $this->_lang);?></a></li>
+            <li class=""><a href="<?= App::Component('router')->to(['page/index', 'name'=>'contacts'])?>"><?= __('menu.contacts', $this->_lang);?></a></li>
             <?php
-            if(App::Component('session')->get('userToken')):
+            if(!App::Component('auth')->isGuest()):
             ?>
-            <li><a href="#">Logout</a></li>
+            <li><a href="<?= App::Component('router')->to(['site/logout'])?>"><?= __('menu.logout', $this->_lang);?></a></li>
             <?php
             else:
             ?>
-            <li><a href="#">Login</a></li>
+            <li><a href="<?= App::Component('router')->to(['site/login'])?>"><?= __('menu.login', $this->_lang);?></a></li>
             <?php
             endif;
             ?>
+            <li><a href="<?= App::Component('router')->to('/en/')?>">En</a></li>
+            <li><a href="<?= App::Component('router')->to('/ru/')?>">Ru</a></li>
+            <li><a href="<?= App::Component('router')->to('/uk/')?>">Uk</a></li>
         </ul>
     </div>
 </nav>

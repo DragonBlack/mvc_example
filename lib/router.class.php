@@ -126,4 +126,45 @@ class Router{
         $this->uri = $_SERVER['REQUEST_URI'];
     }
 
+    public function to($url){
+        if(is_string($url)){
+            $url = trim($url, '/');
+            return '/'.$url.'/';
+        }
+
+        list($controller, $action) = explode('/', $url[0]);
+        if(empty($controller) || empty($action)){
+            throw new Exception('Controller and action can\'t be empty');
+        }
+
+        $uri = '';
+        if(!empty($this->route)){
+            $uri = '/'.$this->route;
+        }
+
+        if($this->language != $this->default_language){
+            $uri .= '/'.$this->language;
+        }
+
+        if($controller != $this->default_controller){
+            $uri .= '/'.$controller;
+        }
+
+        if($action != $this->default_action){
+            $uri .= '/'.$action;
+        }
+
+        unset($url[0]);
+        if(empty($url)){
+            return $uri;
+        }
+
+        $uri .= '/?';
+
+        foreach($url as $param=>$val){
+            $uri .= $param.'='.$val.'&';
+        }
+        $uri = substr($uri, 0, -1);
+        return $uri;
+    }
 }

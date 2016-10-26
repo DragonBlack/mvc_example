@@ -21,6 +21,7 @@ class App{
         self::$_components['config'] = $config = Config::getInstance(ROOT.DS.'config'.DS.'config.php');
         self::$_components['view'] = new View();
         self::$_components['session'] = new Session();
+        self::$_components['auth'] = new Auth();
         foreach($config->get('components') as $name => $settings){
             if(!array_key_exists('class', $settings)){
                 throw new Exception('Class must be defined for component '.$name);
@@ -35,6 +36,10 @@ class App{
 
         if(!isset(self::$_components['router'])){
             self::$_components['router'] = new Router();
+        }
+
+        if(!isset(self::$_components['request'])){
+            self::$_components['request'] = new Request();
         }
 
         self::$_components['router']->parseUrl();

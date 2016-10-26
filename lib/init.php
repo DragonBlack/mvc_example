@@ -15,3 +15,12 @@ function __autoload($class_name){
         throw new Exception('Failed to include class: '.$class_name);
     }
 }
+
+function __($key, $lang){
+    $file = dirname(__DIR__).DIRECTORY_SEPARATOR.'messages'.DIRECTORY_SEPARATOR.$lang.'.php';
+    if(is_file($file)){
+        $data = require $file;
+        return isset($data[$key]) ? $data[$key] : $key;
+    }
+    return $key;
+}
